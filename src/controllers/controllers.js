@@ -1,4 +1,5 @@
 const mssql = require('mssql');
+<<<<<<< HEAD
 const config = require('../config/config');
 async function getAllMembers(req, res) {
     try {
@@ -69,3 +70,70 @@ module.exports = {
   registerMember,
   getMemberById
 }
+=======
+const config = require('../config/config')
+
+async function getBookById(req, res) {
+    try {
+      const { id } = req.params;
+  
+      let sql = await mssql.connect(config);
+      if (sql.connected) {
+        let result = await sql.query(`SELECT * FROM dbo.Books WHERE BookID = ${id}`);
+        console.log(result);
+  
+        if (result.recordset.length === 0) {
+          return res.status(404).json({ error: 'Book not found' });
+        }
+  
+        const book = result.recordset[0];
+        res.json(book);
+    
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  }
+  
+  async function addBook(req, res) {
+    try {
+      const { BookID, Title, Author, PublicationYear } = req.body;
+      if (!BookID || !Title || !Author || !PublicationYear) {
+        return res.status(400).json({ error: 'BookID, Title, Author, and PublicationYear are required' });
+      }
+  
+      let sql = await mssql.connect(config);
+      if (sql.connected) {
+        const query = `INSERT INTO dbo.Books (BookID, Title, Author, PublicationYear) VALUES (${BookID}, '${Title}', '${Author}', '${PublicationYear}')`;
+        let result = await sql.query(query);
+        console.log(result);
+  
+        // Send the inserted book data as the response
+        res.json({ BookID, Title, Author, PublicationYear });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  }
+
+  
+  async function getAllBooks(req, res) {
+    try {
+      let sql = await mssql.connect(config);
+      if (sql.connected) {
+        let results = await sql.query('SELECT * FROM dbo.Books');
+        res.json(results.recordset);
+      }
+    } catch (error) {
+      console.error('Error retrieving books:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+  module.exports={
+    getAllBooks,
+    addBook,
+    getBookById
+  }
+>>>>>>> 47df602fe3ccaf364d60ce5b065988d91df843de
