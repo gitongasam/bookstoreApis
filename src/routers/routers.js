@@ -1,7 +1,12 @@
 const express = require('express');
-
-const { borrowBook, returnBook } = require('../controllers/controllers');
-const { getAllBooks, getBookById, addBook} = require('../controllers/controllers');
+const { getAllBooks } = require('../controllers/getAllBooks.js')
+const { getBookById } =  require('../controllers/getBookByID.js')
+const { addBook } = require('../controllers/addBook.js')
+const { borrowBook } = require('../controllers/borrowBook.js') 
+const { returnBook } = require('../controllers/returnBook.js')
+const { getAllMembers } = require('../controllers/getAllMembers.js')
+const { registerMember } = require('../controllers/registerMembers.js')
+const { getMemberById } = require('../controllers/getMemberByID.js')
 
 const router = express.Router();
 
