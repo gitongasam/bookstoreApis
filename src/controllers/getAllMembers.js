@@ -1,5 +1,5 @@
 const mssql = require('mssql');
-const config = require('../config/config');
+const config = require('../config/config.js');
 async function getAllMembers(req, res) {
     try {
       let sql = await mssql.connect(config);

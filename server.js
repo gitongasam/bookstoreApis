@@ -10,8 +10,11 @@ app.get('/', (req, res) =>{
     res.send('chris')
 })
 
+
+
 app.use(router)
 
-const port = 5000;
+
+const port = 5002;
 
 app.listen(port, ()=>console.log(`Server is listening at port ${port}`));
