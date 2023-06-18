@@ -5,6 +5,7 @@ const Config = {
     password: process.env.DB_PWD,
     database: process.env.DB_NAME,
     server: 'localhost',
+    port: 1433,
     pool: {
         max: 10,
         min: 0,
@@ -16,4 +17,4 @@ const Config = {
     }
     }
     
-    module.exports = Config;
+module.exports = Config;
