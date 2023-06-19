@@ -13,13 +13,59 @@ CREATE TABLE Books(
 	Status VARCHAR(50)
 );
 
+ALTER TABLE Books
+ADD ContactNumber VARCHAR(255);
+
+INSERT INTO Books (BookID, Title, Author, PublicationYear, Status, ContactNumber)
+VALUES
+(9, 'Book 1', 'Author 1', 2023, 'Available', '123-456-7890'),
+(10, 'Book 2', 'Author 2', 2023, 'Available', '987-654-3210'),
+(11, 'Book 3', 'Author 3', 2023, 'Available', '123-233-5678'),
+(12, 'Book 4', 'Author 4', 2023, 'Available', '555-123-4567'),
+(13, 'Book 5', 'Author 5', 2023, 'Available', '987-654-3210'),
+(14, 'Book 6', 'Author 6', 2023, 'Available', '123-456-7890'),
+(15, 'Book 7', 'Author 7', 2023, 'Available', '555-123-4567'),
+(16, 'Book 8', 'Author 8', 2023, 'Available', '987-654-3210');
+
+ALTER TABLE Books
+ADD Password VARCHAR(255);
+
+INSERT INTO Books (BookID, Title, Author, PublicationYear, Status, ContactNumber, Password)
+VALUES
+(17, 'Book 17', 'Author 17', 2023, 'Available', '111-222-3333', 'password1'),
+(18, 'Book 18', 'Author 18', 2023, 'Available', '444-555-6666', 'password2'),
+(19, 'Book 19', 'Author 19', 2023, 'Available', '777-888-9999', 'password3'),
+(20, 'Book 20', 'Author 20', 2023, 'Available', '000-111-2222', 'password4'),
+(21, 'Book 21', 'Author 21', 2023, 'Available', '333-444-5555', 'password5'),
+(22, 'Book 22', 'Author 22', 2023, 'Available', '666-777-8888', 'password6'),
+(23, 'Book 23', 'Author 23', 2023, 'Available', '999-000-1111', 'password7'),
+(24, 'Book 24', 'Author 24', 2023, 'Available', '222-333-4444', 'password8');
+
+
+
 CREATE TABLE Members(
 	MemberID INT PRIMARY KEY,
 	Name VARCHAR(255),
 	Address VARCHAR(50),
 	ContactNumber INT,	
 
+
 );
+
+ALTER TABLE Members
+ADD Password VARCHAR(255);
+
+INSERT INTO Members (MemberID, Name, Address, ContactNumber, Password)
+VALUES
+(11, 'John Doe', '123 Main Street', 555-111-1111, 'password1'),
+(12, 'Jane Smith', '456 Elm Street', 555-222-2222, 'password2'),
+(13, 'David Johnson', '789 Oak Street', 555-333-3333, 'password3'),
+(14, 'Emily Davis', '321 Pine Street', 555-444-4444, 'password4'),
+(15, 'Michael Brown', '654 Maple Street', 555-555-5555, 'password5'),
+(16, 'Sarah Wilson', '987 Cedar Street', 555-666-6666, 'password6'),
+(17, 'Robert Taylor', '654 Birch Street', 555-777-7777, 'password7'),
+(18, 'Jennifer Miller', '321 Walnut Street', 555-888-8888, 'password8');
+
 
 CREATE TABLE Loans(
 	LoanID INT PRIMARY KEY,
@@ -71,8 +117,8 @@ VALUES
 
 
 SELECT * FROM Loans
-SELECT * FROM Books
 SELECT * FROM Members
+
 
 --Tasks
 
@@ -176,3 +222,31 @@ END;
 
 INSERT INTO Loans (LoanID, BookID, MemberID, LoanDate, ReturnDate)
 VALUES (18, 3, 1, '2023-06-12', '2023-06-26');
+
+
+CREATE PROCEDURE addMembers
+    @MemberID INT,
+    @Name VARCHAR(255),
+    @Address VARCHAR(50),
+    @ContactNumber VARCHAR(20),
+    @Password VARCHAR(255)
+AS
+BEGIN
+    INSERT INTO Members (MemberID, Name, Address, ContactNumber, Password)
+    VALUES (@MemberID, @Name, @Address, @ContactNumber, @Password)
+
+    SELECT * FROM dbo.Members
+END
+
+ALTER TABLE Members ALTER COLUMN ContactNumber VARCHAR(20)
+
+
+CREATE PROCEDURE getMembersByID
+    @MemberID INT
+AS
+BEGIN
+    SELECT * FROM Members WHERE MemberID = @MemberID;
+END
+
+
+SELECT * FROM Members

@@ -7,7 +7,7 @@ const { returnBook } = require('../controllers/returnBook.js')
 const { getAllMembers } = require('../controllers/getAllMembers.js')
 const { registerMember } = require('../controllers/registerMembers.js')
 const { getMemberById } = require('../controllers/getMemberByID.js')
-const { deleteBook } = require('../controllers/deleteBook.js')
+const { deleteBook} = require('../controllers/deleteBook.js')
 
 const router = express.Router();
 
