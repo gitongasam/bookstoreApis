@@ -1,10 +1,10 @@
 {
   "name": "bookstore",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +17,6 @@
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "mssql": "^9.1.1"
-  }
+  },
+  "description": ""
 }

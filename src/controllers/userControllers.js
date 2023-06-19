@@ -6,6 +6,7 @@ require('dotenv').config();
 const getAUser = require('../utils/getAUser');
 const { tokenGenerator } = require("../utils/token");
 
+
 module.exports = {
   postUser: async (req, res) => {
     try {
