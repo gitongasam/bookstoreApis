@@ -1,30 +1,27 @@
 const mssql = require('mssql');
-const config = require('../config/config')
+const config = require('../config/config');
 
-async function deleteBook(){
-    try{
-    const {id} = req.params;
-    const index= books.findIndex(book=>book.id=== parseInt(id));
-    
-if(id=== -1){
-res.status(500).json({erorr:"internal server error"});
-let sql = await mssql.connect(config);
-if (sql.connected) {
-    const query=`DELETE from dbo.books`
-    let result = await sql.query(query);
-    console.log(result.recordset);
-}
-res.json({message:"dleted succesfully"})
+async function deleteBook(req, res) {
+  try {
+    const id  = req.params.id;
+
+    let sql = await mssql.connect(config);
+    if (!sql.connected) {
+      return res.status(500).json({ error: 'Failed to connect to the database' });
     }
-}
-    catch(error){
-        console.error('Error:', error);
-        res.status(500).json({ error: 'An error occurred' });
-    };
- 
+    let result = await sql.request().input("bookID", mssql.Int, id).query(`DELETE FROM dbo.Books WHERE BookID = @bookID`);
+
+    if (result.rowsAffected[0] === 0) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+
+    res.json({ message: 'Deleted successfully' });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
 }
 
-
-module.exports ={
-    deleteBook
-}
+module.exports = {
+  deleteBook
+};
