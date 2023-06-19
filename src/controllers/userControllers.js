@@ -11,8 +11,8 @@ const userSchema = Joi.object({
   Name: Joi.string().required(),
   Address: Joi.string().required(),
   ContactNumber: Joi.string().required(),
-  Password: Joi.string().required()
-});
+  c_password: Joi.ref("Password")
+}).with("password","c_password");
 
 module.exports = {
   postUser: async (req, res) => {
