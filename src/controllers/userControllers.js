@@ -1,19 +1,11 @@
-const Joi = require('joi');
+const userSchema = require('../validators/userValidators')
 const config = require('../config/config.js');
 const mssql = require('mssql');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const getAUser = require('../utils/getAUser');
 const { tokenGenerator } = require("../utils/token");
-const userSchema = Joi.object({
-  MemberID: Joi.string().required(),
-  Name: Joi.string().required(),
-  Address: Joi.string().required(),
-  ContactNumber: Joi.string().required(),
-  Password: Joi.string().pattern(new RegExp("^[A-Za-z0-9]")).required(),
-  c_password: Joi.ref("Password")
 
-}).with("Password", "c_password");
 
 module.exports = {
   postUser: async (req, res) => {
