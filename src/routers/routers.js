@@ -8,7 +8,6 @@ const { getAllMembers } = require('../controllers/getAllMembers.js')
 const { registerMember } = require('../controllers/registerMembers.js')
 const { getMemberById } = require('../controllers/getMemberByID.js')
 const { deleteBook } = require('../controllers/deleteBook.js')
-const {sendMail} = require("../utils/sendMail")
 
 const router = express.Router();
 
@@ -21,9 +20,6 @@ router.get('/books', getAllBooks);
 router.get('/books/:id', getBookById);
 router.post('/books',addBook);
 router.delete('/books/delete/:id',deleteBook)
-router.post('/sendMail', (req,res)=>{
-    sendMail()
-    res.send("i tried to send an email please chec your email")
-})
+
 
 module.exports = router;

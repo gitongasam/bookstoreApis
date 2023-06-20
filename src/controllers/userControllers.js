@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const userSchema = require('../validators/userValidators')
 const config = require('../config/config.js');
 const mssql = require('mssql');
 const bcrypt = require('bcrypt');
@@ -8,15 +8,7 @@ const { tokenGenerator } = require("../utils/token");
 
 
 
-const userSchema = Joi.object({
-  MemberID: Joi.string().required(),
-  Name: Joi.string().required(),
-  Address: Joi.string().required(),
-  ContactNumber: Joi.string().required(),
-  Password: Joi.string().pattern(new RegExp("^[A-Za-z0-9]")).required(),
-  c_password: Joi.ref("Password")
 
-}).with("Password", "c_password");
 
 module.exports = {
   postUser: async (req, res) => {
@@ -38,10 +30,13 @@ module.exports = {
           .input('Name', user.Name)
           .input('Address', user.Address)
           .input('ContactNumber', user.ContactNumber)
-          .input('Password', hashedPwd);
+          .input('Password', hashedPwd)
+          .input('email',user.email);
+
 
         const results = await request.execute('dbo.addMembers');
         res.json(results);
+        
       }
     } catch (error) {
       console.error(error);
