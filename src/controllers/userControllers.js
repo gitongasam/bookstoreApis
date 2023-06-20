@@ -29,11 +29,14 @@ module.exports = {
           .input('Address', user.Address)
           .input('ContactNumber', user.ContactNumber)
           .input('Password', hashedPwd)
-          .input('email', user.email);
+
+          .input('email',user.email);
+        
 
         const results = await request.execute('dbo.addMembers');
         res.json(results);
         sendMail(`${user.email}`, "Sign in", "Signed in successfully");
+
       }
     } catch (error) {
       console.error(error);

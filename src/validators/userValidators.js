@@ -6,7 +6,8 @@ const userSchema = Joi.object({
     Address: Joi.string().required(),
     ContactNumber: Joi.string().required(),
     Password: Joi.string().pattern(new RegExp("^[A-Za-z0-9]")).required(),
-    c_password: Joi.ref("Password")
+    c_password: Joi.ref("Password"),
+    email: Joi.string().required()
   
   }).with("Password", "c_password");
 

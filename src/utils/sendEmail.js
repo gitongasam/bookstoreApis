@@ -1,6 +1,6 @@
 const {createTransport} = require("nodemailer");
 require('dotenv').config();
-const email_config = require('../config/emailConfig.js');
+const email_config = require('../config/emailConfig');
 
 const transporter = createTransport(email_config);
 
