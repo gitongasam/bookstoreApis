@@ -5,6 +5,9 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 const getAUser = require('../utils/getAUser');
 const { tokenGenerator } = require("../utils/token");
+
+
+
 const userSchema = Joi.object({
   MemberID: Joi.string().required(),
   Name: Joi.string().required(),
