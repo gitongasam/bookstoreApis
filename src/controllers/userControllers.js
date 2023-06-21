@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 const getAUser = require('../utils/getAUser');
 const { tokenGenerator } = require("../utils/token");
+const sendMail = require('../utils/sendEmail');
 
 
 module.exports = {
@@ -27,10 +28,15 @@ module.exports = {
           .input('Name', user.Name)
           .input('Address', user.Address)
           .input('ContactNumber', user.ContactNumber)
-          .input('Password', hashedPwd);
+          .input('Password', hashedPwd)
+
+          .input('email',user.email);
+        
 
         const results = await request.execute('dbo.addMembers');
         res.json(results);
+        sendMail(`${user.email}`, "Sign in", "Signed in successfully");
+
       }
     } catch (error) {
       console.error(error);
@@ -55,6 +61,7 @@ module.exports = {
             roles: "admin"
           });
           res.status(200).json({ success: true, message: "Logged in successfully", token });
+          sendMail(`${user.email}`, "Logged in", "Logged in successfully");
         } else {
           res.status(401).json({ success: false, message: "Wrong credentials" });
         }

@@ -1,3 +1,4 @@
+
 const  jwt = require("jsonwebtoken");
 const { error } = require("../validators/userValidators");
 require("dotenv").config();
@@ -27,4 +28,3 @@ const authenticationMiddleware = (req, res, next) => {
 }
 
 module.exports = authenticationMiddleware;
-
