@@ -7,10 +7,8 @@ const { returnBook } = require('../controllers/returnBook.js')
 const { getAllMembers } = require('../controllers/getAllMembers.js')
 const { registerMember } = require('../controllers/registerMembers.js')
 const { getMemberById } = require('../controllers/getMemberByID.js')
-const { deleteBook } = require('../controllers/deleteBook.js');
-const authenticationMiddleware = require('../middlewares/middlewares.js');
+const { deleteBook } = require('../controllers/deleteBook.js')
 
-const router = express.Router();
 
 router.put('/books/borrow/:id', borrowBook)
 router.put('/books/return/:id', returnBook)
