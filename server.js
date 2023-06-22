@@ -8,7 +8,6 @@ const app = express();
 
 app.use(express.json());
 // app.use('/',router)
-app.use("/",bookRouter)
 
 app.get('/', (req, res) => {
   res.send('chris');

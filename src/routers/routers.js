@@ -1,4 +1,5 @@
 const express = require('express');
+const router =express.Router();
 const { getAllBooks } = require('../controllers/getAllBooks.js')
 const { getBookById } =  require('../controllers/getBookByID.js')
 const { addBook } = require('../controllers/addBook.js')
@@ -8,6 +9,7 @@ const { getAllMembers } = require('../controllers/getAllMembers.js')
 const { registerMember } = require('../controllers/registerMembers.js')
 const { getMemberById } = require('../controllers/getMemberByID.js')
 const { deleteBook } = require('../controllers/deleteBook.js')
+const authenticationMiddleware = require('../middlewares/middlewares.js')
 
 
 router.put('/books/borrow/:id', borrowBook)
