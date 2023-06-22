@@ -1,4 +1,4 @@
---Weekend Chalenge
+
 CREATE DATABASE LibraryManagement
 USE LibraryManagement
 
@@ -15,6 +15,12 @@ CREATE TABLE Books(
 
 ALTER TABLE Books
 ADD ContactNumber VARCHAR(255);
+
+ALTER TABLE Books
+DROP COLUMN c_password;
+
+ALTER TABLE Members
+DROP COLUMN c_password;
 
 INSERT INTO Books (BookID, Title, Author, PublicationYear, Status, ContactNumber)
 VALUES
@@ -54,6 +60,12 @@ CREATE TABLE Members(
 
 ALTER TABLE Members
 ADD Password VARCHAR(255);
+
+ALTER TABLE Members
+ADD c_password VARCHAR(255);
+
+ALTER TABLE Members
+ADD email VARCHAR(255);
 
 INSERT INTO Members (MemberID, Name, Address, ContactNumber, Password)
 VALUES
@@ -223,17 +235,20 @@ END;
 INSERT INTO Loans (LoanID, BookID, MemberID, LoanDate, ReturnDate)
 VALUES (18, 3, 1, '2023-06-12', '2023-06-26');
 
+DROP TRIGGER PreventExcessiveBorrowing
 
-CREATE PROCEDURE addMembers
+
+ALTER PROCEDURE addMembers
     @MemberID INT,
     @Name VARCHAR(255),
     @Address VARCHAR(50),
     @ContactNumber VARCHAR(20),
-    @Password VARCHAR(255)
+    @Password VARCHAR(255),
+	@email VARCHAR(255)
 AS
 BEGIN
-    INSERT INTO Members (MemberID, Name, Address, ContactNumber, Password)
-    VALUES (@MemberID, @Name, @Address, @ContactNumber, @Password)
+    INSERT INTO Members (MemberID, Name, Address, ContactNumber, Password, email)
+    VALUES (@MemberID, @Name, @Address, @ContactNumber, @Password, @email)
 
     SELECT * FROM dbo.Members
 END
@@ -249,4 +264,70 @@ BEGIN
 END
 
 
+
+EXEC PROCEDURE dbo.addMembers
+
 SELECT * FROM Members
+SELECT * FROM Books
+SELECT * FROM Loans
+
+
+
+CREATE PROCEDURE selectAll
+AS
+BEGIN
+	SELECT * FROM Books
+END
+
+EXEC selectAll
+
+USE LibraryManagement;
+
+SELECT *
+INTO MergedTable
+FROM Books;
+
+INSERT INTO MergedTable
+SELECT *
+FROM Members;
+
+INSERT INTO NewTable
+SELECT *
+FROM Loans;
+
+SELECT * FROM Books
+
+
+CREATE TABLE MergedTable (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    BookID INT,
+    Title VARCHAR(50),
+    Author VARCHAR(50),
+    PublicationYear INT,
+    Status VARCHAR(50),
+    ContactNumberBooks VARCHAR(255),
+    Password VARCHAR(255),
+    MemberID INT,
+    Name VARCHAR(255),
+    Address VARCHAR(50),
+    ContactNumberMembers VARCHAR(20),
+    PasswordMembers VARCHAR(255),
+    email VARCHAR(255),
+    LoanID INT,
+    LoanDate DATE,
+    ReturnDate DATE
+);
+
+INSERT INTO MergedTable (BookID, Title, Author, PublicationYear, Status, ContactNumberBooks, Password)
+SELECT BookID, Title, Author, PublicationYear, Status, ContactNumber, Password
+FROM Books;
+
+INSERT INTO MergedTable (MemberID, Name, Address, ContactNumberMembers, PasswordMembers, email)
+SELECT MemberID, Name, Address, ContactNumber, Password, email
+FROM Members;
+
+INSERT INTO MergedTable (LoanID, BookID, MemberID, LoanDate, ReturnDate)
+SELECT LoanID, BookID, MemberID, LoanDate, ReturnDate
+FROM Loans;
+
+SELECT * FROM MergedTable

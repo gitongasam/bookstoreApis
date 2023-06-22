@@ -16,14 +16,11 @@ async function borrowBook(req, res) {
     const result = await sql
       .request()
       .input('bookID', mssql.Int, bookID)
-      .query(`UPDATE dbo.Books
-              SET Status = 'Loaned'
-              WHERE BookID = @bookID;
-              SELECT * FROM dbo.Books WHERE BookID = @bookID`);
+      .execute(`dbo.borrowed_book`)
 
     const borrowedBook = result.recordset[0];
     res.status(200).send(`Book borrowed successfully. \n\nBook details: ${JSON.stringify(borrowedBook)}`);
-    // sendMail(`${user.email}`, "Book borrowed!", "Book borrowed successfully");
+    sendMail(`@MemberEmail`, "Book borrowed!", "Book borrowed successfully");
 
   } }catch (error) {
     // console.error('Error borrowing book:', error);
