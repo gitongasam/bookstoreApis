@@ -1,4 +1,5 @@
 const userSchema = require('../validators/userValidators')
+const loginSchema = require('../validators/loginValidator')
 const config = require('../config/config.js');
 const mssql = require('mssql');
 const bcrypt = require('bcrypt');
@@ -29,7 +30,6 @@ module.exports = {
           .input('Address', user.Address)
           .input('ContactNumber', user.ContactNumber)
           .input('Password', hashedPwd)
-
           .input('email',user.email);
         
 
@@ -46,7 +46,7 @@ module.exports = {
 
   loginUser: async (req, res) => {
     try {
-      const { error, value } = userSchema.validate(req.body);
+      const { error, value } = loginSchema.validate(req.body);
       if (error) {
         return res.status(400).json({ error: error.details[0].message });
       }

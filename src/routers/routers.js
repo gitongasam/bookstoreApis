@@ -22,11 +22,13 @@ bookRouter.get('/memberbyid/:id', getMemberById);
 bookRouter.get('/books/:id', getBookById);
 bookRouter.post('/books', addBook);
 bookRouter.delete('/books/delete/:id', deleteBook);
+bookRouter.get('/allmembers', getAllMembers);
+
 
 bookRouter.use(authenticationMiddleware);
 
 bookRouter.get('/books', getAllBooks);
-bookRouter.get('/allmembers', getAllMembers);
+// bookRouter.get('/allmembers', getAllMembers);
 
 
 
@@ -34,13 +36,5 @@ module.exports = bookRouter;
 
 
 
-router.get('/books/borrow/:id', borrowBook)
-router.get('/books/return/:id', returnBook)
-router.get('/allmembers',getAllMembers)
-router.post('/members',registerMember)
-router.get('/memberbyid/:id',getMemberById)
-router.get('/books', getAllBooks);
-router.get('/books/:id', getBookById);
-router.post('/books',addBook);
-router.delete('/books/delete/:id',deleteBook)
+
 

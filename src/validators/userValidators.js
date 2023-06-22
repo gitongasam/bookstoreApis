@@ -12,4 +12,7 @@ const userSchema = Joi.object({
   }).with("Password", "c_password");
 
 
-  module.exports = userSchema;
+  module.exports= userSchema
+
+
+  
