@@ -10,7 +10,7 @@ async function getAllBooks(req, res, next) {
       if (user.roles === "admin") {
         let sql = await mssql.connect(config);
         if (sql.connected) {
-          let results = await sql.query('SELECT * FROM dbo.Books');
+          let results = await sql.query('SELECT *FROM dbo.books WHERE is_deleted = 0;');
           res.json(results.recordset);
         }
       } else {
@@ -19,9 +19,9 @@ async function getAllBooks(req, res, next) {
     } else {
       let sql = await mssql.connect(config);
       if (sql.connected) {
-        let results = await sql.query('SELECT TOP 5 * FROM dbo.Books');
+        let results = await sql.query('SELECT TOP 5 * FROM dbo.Books WHERE is_deleted =0');
         res.json(results.recordset)
-      }
+      }e
     }
   } catch (error) {
     console.error('Error retrieving books:', error);

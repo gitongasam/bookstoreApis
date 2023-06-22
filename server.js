@@ -18,6 +18,6 @@ console.log(process.env.DB_USER)
 app.use('/',router)
 app.use(userRoutes)
 
-const port = 5002;
+const port = 5000;
 
 app.listen(port, ()=>console.log(`Server is listening at port ${port}`));

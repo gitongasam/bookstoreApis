@@ -6,7 +6,7 @@ async function getBookById(req, res) {
   
       let sql = await mssql.connect(config);
       if (sql.connected) {
-        let result = await sql.query(`SELECT * FROM dbo.Books WHERE BookID = ${id}`);
+        let result = await sql.query(`SELECT * FROM dbo.Books WHERE BookID = ${id} and is_deleted = 0`);
         console.log(result);
   
         if (result.recordset.length === 0) {

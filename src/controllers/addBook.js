@@ -12,7 +12,7 @@ const config = require('../config/config');
       if (sql.connected) {
         const query = `INSERT INTO dbo.Books (BookID, Title, Author, PublicationYear) VALUES (${BookID}, '${Title}', '${Author}', '${PublicationYear}')`;
         let result = await sql.query(query);
-        console.log(result);
+        console.log("succesfully added a book to your database");
   
         // Send the inserted book data as the response
         res.json({ BookID, Title, Author, PublicationYear });

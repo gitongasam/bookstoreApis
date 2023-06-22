@@ -9,7 +9,7 @@ async function deleteBook(req, res) {
     if (!sql.connected) {
       return res.status(500).json({ error: 'Failed to connect to the database' });
     }
-    let result = await sql.request().input("bookID", mssql.Int, id).query(`DELETE FROM dbo.Books WHERE BookID = @bookID`);
+    let result = await sql.request().input("bookID", mssql.Int, id).query(`UPDATE dbo.books SET is_deleted = 1 WHERE bookid = @bookID`);
 
     if (result.rowsAffected[0] === 0) {
       return res.status(404).json({ error: 'Book not found' });

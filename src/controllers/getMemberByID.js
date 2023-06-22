@@ -11,7 +11,7 @@ const config = require('../config/config');
       if (sql.connected) {
         // Query the Members table for the specific member
         const result = await sql.query(
-          `SELECT * FROM dbo.Members WHERE MemberID = ${memberId}`
+          `SELECT * FROM dbo.Members WHERE MemberID = ${memberId} and is_deleted = 0`
         );
   
         if (result.recordset.length === 0) {
