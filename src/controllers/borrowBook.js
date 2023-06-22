@@ -1,5 +1,6 @@
 const mssql = require('mssql');
 const config = require('../config/config');
+const sendMail = require('../utils/sendEmail');
   
 
 async function borrowBook(req, res) {
@@ -18,6 +19,7 @@ async function borrowBook(req, res) {
 
     const borrowedBook = result.recordset[0];
     res.status(200).send(`Book borrowed successfully. \n\nBook details: ${JSON.stringify(borrowedBook)}`);
+    // sendMail(`${user.email}`, "Book borrowed!", "Book borrowed successfully");
 
   } catch (error) {
     // console.error('Error borrowing book:', error);
