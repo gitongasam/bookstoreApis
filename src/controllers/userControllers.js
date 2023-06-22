@@ -9,6 +9,7 @@ const { tokenGenerator } = require("../utils/token");
 const sendMail = require('../utils/sendEmail');
 
 
+
 module.exports = {
   postUser: async (req, res) => {
     try {
@@ -30,13 +31,13 @@ module.exports = {
           .input('Address', user.Address)
           .input('ContactNumber', user.ContactNumber)
           .input('Password', hashedPwd)
-          .input('email',user.email);
-        
+          .input('email', user.email);
 
         const results = await request.execute('dbo.addMembers');
-        res.json(results);
+        const userRecord = results.recordset[0];
+        const { MemberID, Name, Address, ContactNumber, email } = userRecord;
+        res.json({ results});
         sendMail(`${user.email}`, "Sign in", "Signed in successfully");
-
       }
     } catch (error) {
       console.error(error);
