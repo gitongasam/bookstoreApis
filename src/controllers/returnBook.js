@@ -1,22 +1,29 @@
 const mssql = require('mssql');
 const config = require('../config/config');
+const sendMail = require('../utils/sendEmail');
   
 
 async function returnBook(req, res) {
   try {
     const bookID = req.params.id;
+    const memberID = req.body.MemberID;
+    // console.log(memberID);
 
     const sql = await mssql.connect(config);
 
     const result = await sql
       .request()
       .input('bookID', mssql.Int, bookID)
-      .query(`UPDATE dbo.Books
+      .input('memberID', mssql.Int, memberID)
+      .query(`UPDATE dbo.Books WHERE Status = 'Loaned'
               SET Status = 'Available'
               WHERE BookID = @bookID;
-              SELECT * FROM dbo.Books WHERE BookID = @bookID`);
+              SELECT email
+              FROM dbo.Members WHERE MemberID = @memberID`);
+
     const returnedBook = result.recordset[0];
-    res.status(200).send(`Book returned successfully. \n\nBook details: ${JSON.stringify(returnedBook)}`);
+    res.status(200).send(`Book returned successfully.`);
+    sendMail(`${returnedBook.email}`, "Book returned!", "Book returned successfully");
 
   } catch (error) {
     // console.error('Error returning book:', error);

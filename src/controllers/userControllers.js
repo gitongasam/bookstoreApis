@@ -34,7 +34,7 @@ module.exports = {
         
 
         const results = await request.execute('dbo.addMembers');
-        res.json(results);
+        res.json(results.recordset[0]);
         sendMail(`${user.email}`, "Sign in", "Signed in successfully");
 
       }
