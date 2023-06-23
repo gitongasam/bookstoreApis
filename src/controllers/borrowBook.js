@@ -6,17 +6,24 @@ const sendMail = require('../utils/sendEmail');
 async function borrowBook(req, res) {
   try {
     const bookID = req.params.id;
+    const memberID = req.body.MemberID;
+    // console.log(memberID);
 
     const sql = await mssql.connect(config);
 
     const result = await sql
       .request()
       .input('bookID', mssql.Int, bookID)
-      .execute(`dbo.borrowed_book`)
+      .input('memberID', mssql.Int, memberID)
+      .query(`UPDATE dbo.Books WHERE Status = 'Available'
+              SET Status = 'Loaned'
+              WHERE BookID = @bookID;
+              SELECT email
+              FROM dbo.Members WHERE MemberID = @memberID`);
 
     const borrowedBook = result.recordset[0];
-    res.status(200).send(`Book borrowed successfully. \n\nBook details: ${JSON.stringify(borrowedBook)}`);
-    sendMail(`@MemberEmail`, "Book borrowed!", "Book borrowed successfully");
+    res.status(200).send(`Book borrowed successfully.`);
+    sendMail(`${borrowedBook.email}`, "Book borrowed!", "Book borrowed successfully");
 
   } catch (error) {
     // console.error('Error borrowing book:', error);
